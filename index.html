@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0d1117">
+  <meta name="description" content="ZalVes — дневник тренировок и прогресса тела">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+  <title>ZalVes — тренировки</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div><p class="eyebrow">OFFLINE FITNESS TRACKER</p><h1>Zal<span>Ves</span></h1></div>
+      <button class="icon-btn" id="installBtn" hidden aria-label="Установить приложение">⇩</button>
+    </header>
+
+    <main>
+      <section class="view active" id="dashboardView">
+        <div class="hero-card">
+          <div><p class="muted">Сегодня</p><h2 id="todayTitle">Тренируемся умнее.</h2><p class="muted" id="streakText">Добавьте первую запись</p></div>
+          <div class="hero-mark">Z</div>
+        </div>
+        <div class="section-heading"><h3>Сводка прогресса</h3><button class="text-btn" data-view="progressView">Все данные</button></div>
+        <div class="stats-grid">
+          <article class="stat-card"><span>Вес тела</span><strong id="dashWeight">—</strong><small>кг</small><div class="sparkline" id="weightSpark"></div></article>
+          <article class="stat-card"><span>Объём груди</span><strong id="dashChest">—</strong><small>см</small><div class="sparkline purple" id="chestSpark"></div></article>
+          <article class="stat-card wide"><span>Последняя тренировка</span><strong id="dashWorkout">Пока нет записей</strong><small id="dashWorkoutMeta">Создайте тренировку в разделе «Зал»</small></article>
+        </div>
+        <div class="section-heading"><h3>Быстрые действия</h3></div>
+        <div class="quick-actions"><button class="action-card primary" data-view="workoutView"><b>＋</b><span>Записать тренировку</span></button><button class="action-card" data-modal="measurementModal"><b>⌁</b><span>Измерить прогресс</span></button></div>
+        <div class="section-heading"><h3>Недельная активность</h3></div><div class="week-chart" id="weekChart"></div>
+      </section>
+
+      <section class="view" id="workoutView"><div class="page-title"><div><p class="eyebrow">ЖУРНАЛ</p><h2>Тренировки</h2></div><button class="round-btn" data-modal="workoutModal">＋</button></div><div id="workoutList" class="record-list"></div></section>
+      <section class="view" id="progressView"><div class="page-title"><div><p class="eyebrow">АНАЛИТИКА</p><h2>Прогресс</h2></div><button class="round-btn" data-modal="measurementModal">＋</button></div><div class="tabs"><button class="tab active" data-chart="weight">Вес</button><button class="tab" data-chart="body">Замеры</button><button class="tab" data-chart="lifts">Силовые</button></div><div class="chart-card"><div class="chart-header"><div><span class="muted" id="chartLabel">Вес тела</span><strong id="chartValue">—</strong></div><span class="trend" id="chartTrend">Нет данных</span></div><div class="large-chart" id="largeChart"></div></div><div class="section-heading"><h3>Последние замеры</h3><button class="text-btn" data-modal="measurementModal">Добавить</button></div><div id="measurementList" class="record-list"></div></section>
+      <section class="view" id="settingsView"><div class="page-title"><div><p class="eyebrow">ПРОФИЛЬ</p><h2>Настройки</h2></div></div><div class="settings-card"><label>Имя <input id="profileName" placeholder="Как вас зовут?"></label><label>Цель <select id="profileGoal"><option>Набор мышц</option><option>Снижение веса</option><option>Поддержание формы</option><option>Рост силы</option></select></label><button class="btn primary-btn" id="saveProfile">Сохранить профиль</button></div><div class="settings-card danger-zone"><h3>Данные</h3><p class="muted">Все записи хранятся только на этом устройстве.</p><button class="btn danger-btn" id="exportData">Экспортировать JSON</button><button class="btn ghost-btn" id="clearData">Удалить все данные</button></div></section>
+    </main>
+
+    <nav class="bottom-nav"><button class="nav-item active" data-view="dashboardView"><span>⌂</span>Главная</button><button class="nav-item" data-view="workoutView"><span>▣</span>Зал</button><button class="nav-item" data-view="progressView"><span>◒</span>Прогресс</button><button class="nav-item" data-view="settingsView"><span>⚙</span>Профиль</button></nav>
+  </div>
+
+  <div class="modal-backdrop" id="workoutModal"><form class="modal"><button type="button" class="close-modal">×</button><p class="eyebrow">НОВАЯ ЗАПИСЬ</p><h2>Тренировка</h2><label>Дата<input type="date" name="date" required></label><label>Группа мышц<input name="title" placeholder="Например: Грудь и трицепс" required></label><label>Упражнение<input name="exercise" placeholder="Жим лёжа" required></label><div class="form-row"><label>Вес, кг<input type="number" name="weight" min="0" step="0.5" required></label><label>Подходы<input type="number" name="sets" min="1" step="1" value="3" required></label><label>Повторы<input type="number" name="reps" min="1" step="1" value="10" required></label></div><label>Заметка<textarea name="note" rows="2" placeholder="Самочувствие, техника..."></textarea></label><button class="btn primary-btn" type="submit">Сохранить тренировку</button></form></div>
+  <div class="modal-backdrop" id="measurementModal"><form class="modal"><button type="button" class="close-modal">×</button><p class="eyebrow">ИЗМЕРЕНИЯ</p><h2>Прогресс тела</h2><label>Дата<input type="date" name="date" required></label><div class="form-row"><label>Вес, кг<input type="number" name="weight" min="0" step="0.1"></label><label>Грудь, см<input type="number" name="chest" min="0" step="0.1"></label></div><div class="form-row"><label>Талия, см<input type="number" name="waist" min="0" step="0.1"></label><label>Бицепс, см<input type="number" name="arm" min="0" step="0.1"></label></div><label>Комментарий<textarea name="note" rows="2" placeholder="Как себя чувствуете?"></textarea></label><button class="btn primary-btn" type="submit">Сохранить замер</button></form></div>
+  <div class="toast" id="toast"></div><script src="app.js"></script>
+</body></html>
